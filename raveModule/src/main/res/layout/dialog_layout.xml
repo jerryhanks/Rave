@@ -34,9 +34,9 @@
                 android:layout_height="wrap_content">
                 <ImageButton
                     android:id="@+id/close_btn"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_margin="16dp"
                     android:src="@drawable/close"
                     android:backgroundTint="@color/lightGrey"
                     android:layout_alignParentRight="true"
