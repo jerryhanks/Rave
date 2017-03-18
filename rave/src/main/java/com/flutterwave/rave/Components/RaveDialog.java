@@ -63,7 +63,7 @@ public class RaveDialog extends Dialog {
     private static final String PRICE_FORMAT = "NGN %.2f";
 
 
-    private static final String VB_SECURE_CODE = "VB_SECURE_CODE";
+    private static final String VBV_SECURE_CODE = "VBV_SECURE_CODE";
     private static final String NO_AUTH = "NO_AUTH";
     private static final String PIN = "PIN";
     private static final String RANDOM_DEBIT = "RANDOM_DEBIT";
@@ -91,7 +91,8 @@ public class RaveDialog extends Dialog {
     private LinearLayout mOtpDetailView;
 
     private EditText mCardNumber;
-    private EditText mInputAmount;
+    private EditText mInputAmountCard;
+    private EditText mInputAmountAccount;
     private EditText mUserToken;
     private EditText mExpiryDate;
     private EditText mCvv;
@@ -293,21 +294,39 @@ public class RaveDialog extends Dialog {
         mAccountNumber = (EditText) findViewById(R.id.acount_number);
 
         //set the input text field
-        mInputAmount = (EditText) findViewById(R.id.amount);
+        mInputAmountCard = (EditText) findViewById(R.id.amount_card_segment);
+
+        mInputAmountAccount = (EditText) findViewById(R.id.amount_account_segment);
         //check if mRaveData amount
         if (mRaveData.getItemPrice() == 0) {
             //item price is set to zero so show the input
-            mInputAmount.setVisibility(View.VISIBLE);
+            mInputAmountCard.setVisibility(View.VISIBLE);
             //add text watcher
-            mInputAmount.addTextChangedListener(new InputAmountWatcher() {
+            mInputAmountCard.addTextChangedListener(new InputAmountWatcher() {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     //update the payButton and the item price tv
-                    itemPrice.setText(String.format(Locale.getDefault(), PRICE_FORMAT, Double.parseDouble(charSequence.toString())));
-                    mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, Double.parseDouble(charSequence.toString())));
-                    mRaveData.setmItemPrice(Double.parseDouble(charSequence.toString()));
+                    if (charSequence.length() > 0) {
+                        itemPrice.setText(String.format(Locale.getDefault(), PRICE_FORMAT, Double.parseDouble(charSequence.toString())));
+                        mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, Double.parseDouble(charSequence.toString())));
+                        mRaveData.setmItemPrice(Double.parseDouble(charSequence.toString()));
+                    }
                 }
             });
+
+            mInputAmountAccount.setVisibility(View.VISIBLE);
+            mInputAmountAccount.addTextChangedListener(new InputAmountWatcher() {
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    //update the payButton and the item price tv
+                    if (charSequence.length() > 0) {
+                        itemPrice.setText(String.format(Locale.getDefault(), PRICE_FORMAT, Double.parseDouble(charSequence.toString())));
+                        mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, Double.parseDouble(charSequence.toString())));
+                        mRaveData.setmItemPrice(Double.parseDouble(charSequence.toString()));
+                    }
+                }
+            });
+
         }
 
 
@@ -518,8 +537,11 @@ public class RaveDialog extends Dialog {
         boolean isValid = true;
         if (mCardDetailView.isShown()) {
 
-            if (mInputAmount.getVisibility()==View.VISIBLE && mInputAmount.getText().length()==0){
-                mInputAmount.setError(getContext().getString(R.string.enter_a_valid_amount));
+            if (mInputAmountCard.getVisibility() == View.VISIBLE && mInputAmountCard.getText().length() == 0) {
+                mInputAmountCard.setError(getContext().getString(R.string.enter_a_valid_amount));
+            }
+            if (mInputAmountAccount.getVisibility() == View.VISIBLE && mInputAmountAccount.getText().length() == 0) {
+                mInputAmountCard.setError(getContext().getString(R.string.enter_a_valid_amount));
             }
             if (!mShouldUseToken) {
                 if (mCardNumber.getText().length() != 19) {
@@ -587,7 +609,7 @@ public class RaveDialog extends Dialog {
 
     private void sendRequest(Map<String, String> params, String endpoint) {
         new RequestTask(params, endpoint, true).execute();
-        lockorUnlockInputFields(false);
+        lockOrUnlockInputFields(false);
         mPayBtn.setText(R.string.please_wait);
 
     }
@@ -628,14 +650,14 @@ public class RaveDialog extends Dialog {
                 mAlertMessage.setText((String) data.get("message"));
                 mAlertMessage.setBackgroundResource(R.drawable.curved_shape_dark_pastel_red);
                 mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, mRaveData.getItemPrice()));
-                lockorUnlockInputFields(true);
+                lockOrUnlockInputFields(true);
                 showView(CARD_AND_ALERT_MESSAGE);
             }
         } else {
             mAlertMessage.setText(R.string.network_error);
             mAlertMessage.setBackgroundResource(R.drawable.curved_shape_dark_pastel_red);
             mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, mRaveData.getItemPrice()));
-            lockorUnlockInputFields(true);
+            lockOrUnlockInputFields(true);
             showView(CARD_AND_ALERT_MESSAGE);
         }
     }
@@ -669,7 +691,7 @@ public class RaveDialog extends Dialog {
                 mAmountCharge.setText(amountMsg);
 
                 switch (authMode) {
-                    case VB_SECURE_CODE:
+                    case VBV_SECURE_CODE:
                         if ((data.get("chargeResponseCode").equals("02")
                                 || data.get("chargeResponseCode").equals("00"))) {
                             mAuthUrlString = (String) data.get("authurl");
@@ -683,7 +705,7 @@ public class RaveDialog extends Dialog {
                             mAlertMessage.setText((String) data.get("message"));
                             mAlertMessage.setBackgroundResource(R.drawable.curved_shape_dark_pastel_red);
                             mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, mRaveData.getItemPrice()));
-                            lockorUnlockInputFields(true);
+                            lockOrUnlockInputFields(true);
                             showView(CARD_AND_ALERT_MESSAGE);
                         }
                         break;
@@ -709,7 +731,7 @@ public class RaveDialog extends Dialog {
                             mAlertMessage.setText((String) data.get("message"));
                             mAlertMessage.setBackgroundResource(R.drawable.curved_shape_dark_pastel_red);
                             mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, mRaveData.getItemPrice()));
-                            lockorUnlockInputFields(true);
+                            lockOrUnlockInputFields(true);
                             showView(CARD_AND_ALERT_MESSAGE);
                         }
                         break;
@@ -726,7 +748,7 @@ public class RaveDialog extends Dialog {
                             mAlertMessage.setText((String) data.get("message"));
                             mAlertMessage.setBackgroundResource(R.drawable.curved_shape_dark_pastel_red);
                             mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, mRaveData.getItemPrice()));
-                            lockorUnlockInputFields(true);
+                            lockOrUnlockInputFields(true);
                             showView(CARD_AND_ALERT_MESSAGE);
                         }
                         break;
@@ -743,7 +765,7 @@ public class RaveDialog extends Dialog {
                             mAlertMessage.setText((String) data.get("message"));
                             mAlertMessage.setBackgroundResource(R.drawable.curved_shape_dark_pastel_red);
                             mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, mRaveData.getItemPrice()));
-                            lockorUnlockInputFields(true);
+                            lockOrUnlockInputFields(true);
                             showView(CARD_AND_ALERT_MESSAGE);
                         }
                         break;
@@ -757,7 +779,7 @@ public class RaveDialog extends Dialog {
                 mAlertMessage.setText((String) data.get("message"));
                 mAlertMessage.setBackgroundResource(R.drawable.curved_shape_dark_pastel_red);
                 mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, mRaveData.getItemPrice()));
-                lockorUnlockInputFields(true);
+                lockOrUnlockInputFields(true);
                 showView(CARD_AND_ALERT_MESSAGE);
             }
 
@@ -765,7 +787,7 @@ public class RaveDialog extends Dialog {
             mAlertMessage.setText(R.string.network_error);
             mAlertMessage.setBackgroundResource(R.drawable.curved_shape_dark_pastel_red);
             mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, mRaveData.getItemPrice()));
-            lockorUnlockInputFields(true);
+            lockOrUnlockInputFields(true);
             showView(CARD_AND_ALERT_MESSAGE);
         }
     }
@@ -846,7 +868,7 @@ public class RaveDialog extends Dialog {
                     showView(OTP_VIEW);
                 } else {
                     // show error alert message  and account view
-                    lockorUnlockInputFields(true);
+                    lockOrUnlockInputFields(true);
                     mAccountNumber.setError((String) data.get("message"));
                     mPayBtn.setText(String.format(PAY_FORMAT, mRaveData.getItemPrice()));
                 }
@@ -885,7 +907,7 @@ public class RaveDialog extends Dialog {
                         mPayBtn.setText(R.string.close_form);
                         mPayBtn.setBackgroundResource(R.drawable.curved_shape);
                         mPayBtn.setTextColor(Color.BLACK);
-                        lockorUnlockInputFields(true);
+                        lockOrUnlockInputFields(true);
                         showView(ALERT_MESSAGE);
                     }
                 } else {
@@ -895,7 +917,7 @@ public class RaveDialog extends Dialog {
                     mPayBtn.setText(R.string.close_form);
                     mPayBtn.setBackgroundResource(R.drawable.curved_shape);
                     mPayBtn.setTextColor(Color.BLACK);
-                    lockorUnlockInputFields(true);
+                    lockOrUnlockInputFields(true);
                     showView(ALERT_MESSAGE);
                 }
             } catch (IOException e) {
@@ -907,7 +929,7 @@ public class RaveDialog extends Dialog {
             mAlertMessage.setText(R.string.network_error);
             mAlertMessage.setBackgroundResource(R.drawable.curved_shape_dark_pastel_red);
             mPayBtn.setText(R.string.validate_otp);
-            lockorUnlockInputFields(true);
+            lockOrUnlockInputFields(true);
             showView(OTP_AND_ALERT_MESSAGE);
         }
     }
@@ -915,12 +937,14 @@ public class RaveDialog extends Dialog {
     private void showView(int viewNumber) {
         switch (viewNumber) {
             case CARD_DETAILS:
+                mInputAmountCard.setText(String.valueOf(mRaveData.getItemPrice()));
                 mCardDetailView.setVisibility(View.VISIBLE);
                 mAccountDetailView.setVisibility(View.GONE);
                 mAlertMessageView.setVisibility(View.GONE);
                 mOtpDetailView.setVisibility(View.GONE);
                 break;
             case ACCOUNT_DETAILS:
+                mInputAmountAccount.setText(String.valueOf(mRaveData.getItemPrice()));
                 mCardDetailView.setVisibility(View.GONE);
                 mAccountDetailView.setVisibility(View.VISIBLE);
                 mAlertMessageView.setVisibility(View.GONE);
@@ -961,7 +985,7 @@ public class RaveDialog extends Dialog {
     }
 
 
-    private void lockorUnlockInputFields(boolean unLock) {
+    private void lockOrUnlockInputFields(boolean unLock) {
         mCardButton.setEnabled(unLock);
         mAccountButton.setEnabled(unLock);
         mAccountNumber.setEnabled(unLock);
@@ -971,6 +995,8 @@ public class RaveDialog extends Dialog {
         if (mOtpSpinner != null) {
             mOtpSpinner.setEnabled(unLock);
         }
+        mInputAmountAccount.setEnabled(unLock);
+        mInputAmountCard.setEnabled(unLock);
         mCardNumber.setEnabled(unLock);
         mCvv.setEnabled(unLock);
         mExpiryDate.setEnabled(unLock);

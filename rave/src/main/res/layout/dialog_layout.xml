@@ -188,6 +188,20 @@
                         android:visibility="gone">
 
                         <EditText
+                            android:id="@+id/amount_account_segment"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginTop="4dp"
+                            android:digits="1234567890."
+                            android:hint="@string/amount_hint"
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
+                            android:lines="1"
+                            android:maxLength="19"
+                            android:visibility="gone" />
+
+                        <EditText
                             android:id="@+id/acount_number"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -260,12 +274,12 @@
                         android:orientation="vertical">
 
                         <EditText
-                            android:id="@+id/amount"
+                            android:id="@+id/amount_card_segment"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
                             android:layout_marginTop="4dp"
-                            android:digits="1234567890"
+                            android:digits="1234567890."
                             android:hint="@string/amount_hint"
                             android:imeOptions="actionNext"
                             android:inputType="number"
