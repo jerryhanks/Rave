@@ -10,7 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/demo" />
-            <option value="$PROJECT_DIR$/raveModule" />
+            <option value="$PROJECT_DIR$/rave" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

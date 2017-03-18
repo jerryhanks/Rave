@@ -1,1 +1,1 @@
-include ':demo', ':raveModule'
+include ':demo', ':rave'

@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Rave</string>
+    <string name="card">Card</string>
+    <string name="account">Account</string>
+    <string name="card_field_error">Enter a valid card number.</string>
+    <string name="account_number_field_error">Enter a valid account number.</string>
+    <string name="otp_field_error">Invalid OTP.</string>
+    <string name="date_field_error">Enter a valid card expiry date. e.g (MM/YY)</string>
+    <string name="cvv_field_error">Enter a valid card cvv.</string>
+    <string name="pin_field_error">Enter a valid card pin.</string>
+    <string name="user_token_field_error">Enter a valid token.</string>
+    <string name="please_wait">Please wait...</string>
+    <string name="click_here">Click here to complete your \n transaction.</string>
+    <string name="close_form">CLOSE FORM</string>
+    <string name="network_error">Network error, check you connection.</string>
+    <string name="validate_otp">Validate OTP</string>
+    <string name="account_number">Account Number</string>
+    <string name="otp">OTP</string>
+    <string name="amount_charged">Amount Charged</string>
+    <string name="amount_hint">40000.00</string>
+    <string name="card_number">Card Number</string>
+    <string name="card_pin">Pin</string>
+    <string name="select_bank">SELECT BANK</string>
+    <string name="select_otp">SELECT OTP option</string>
+    <string name="spinner_error">None selected</string>
+    <string name="cvv">CVV</string>
+    <string name="date_format">MM/YY</string>
+    <string name="token">Token</string>
+    <string name="remember_my_card">Remember My card</string>
+    <string name="use_token">Use Token</string>
+    <string name="enter_a_valid_amount">Enter a valid amount</string>
+
+    <string-array name="otp_option_array">
+        <item>SELECT OTP option</item>
+        <item>Hardware Token</item>
+        <item>USSD</item>
+    </string-array>
+</resources>
