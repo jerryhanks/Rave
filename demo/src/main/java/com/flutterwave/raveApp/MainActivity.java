@@ -88,8 +88,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 RaveData raveData = new RaveData.Builder(
-                        "Pacent Technologies Ltd.",//"Shawarma and Coke", //Comapany Name
-                        "Test Project Payment",//"Shawarma and Coke for kenny",
+                        "Shawarma and Coke", //Comapany Name
+                        "Shawarma and Coke for kenny",
                         0.0,
                         "FLWPUBK-31e8501f7a46845633693ddcb42b25f8-X",//"FLWPUBK-6c011cdb12f0c81e332424b061047e7b-X",
                         "FLWSECK-0ad3beb5bf9f7708c8e4bab43bd4af0d-X",//"FLWSECK-9796e060383fecbe90f984dfa9e2e1df-X",
