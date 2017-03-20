@@ -17,7 +17,7 @@
     <string name="account_number">Account Number</string>
     <string name="otp">OTP</string>
     <string name="amount_charged">Amount Charged</string>
-    <string name="amount_hint">40000.00</string>
+    <string name="amount_hint">Amount</string>
     <string name="card_number">Card Number</string>
     <string name="card_pin">Pin</string>
     <string name="select_bank">SELECT BANK</string>
