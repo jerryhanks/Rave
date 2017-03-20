@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
         //no auth
-//
+
 //        raveButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -101,5 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 rave.show();
             }
         });
+
+
     }
 }

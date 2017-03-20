@@ -304,12 +304,13 @@ public class RaveDialog extends Dialog {
             //add text watcher
             mInputAmountCard.addTextChangedListener(new InputAmountWatcher() {
                 @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                     //update the payButton and the item price tv
-                    if (charSequence.length() > 0) {
-                        itemPrice.setText(String.format(Locale.getDefault(), PRICE_FORMAT, Double.parseDouble(charSequence.toString())));
-                        mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, Double.parseDouble(charSequence.toString())));
-                        mRaveData.setmItemPrice(Double.parseDouble(charSequence.toString()));
+                    double amount = charSequence.length() == 0 ? 0.0 : Double.parseDouble(charSequence.toString());
+                    if (count >= 0) {
+                        itemPrice.setText(String.format(Locale.getDefault(), PRICE_FORMAT, amount));
+                        mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, amount));
+                        mRaveData.setmItemPrice(amount);
                     }
                 }
             });
@@ -317,12 +318,13 @@ public class RaveDialog extends Dialog {
             mInputAmountAccount.setVisibility(View.VISIBLE);
             mInputAmountAccount.addTextChangedListener(new InputAmountWatcher() {
                 @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int count) {
                     //update the payButton and the item price tv
-                    if (charSequence.length() > 0) {
-                        itemPrice.setText(String.format(Locale.getDefault(), PRICE_FORMAT, Double.parseDouble(charSequence.toString())));
-                        mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, Double.parseDouble(charSequence.toString())));
-                        mRaveData.setmItemPrice(Double.parseDouble(charSequence.toString()));
+                    double amount = charSequence.length() == 0 ? 0.0 : Double.parseDouble(charSequence.toString());
+                    if (count >= 0) {
+                        itemPrice.setText(String.format(Locale.getDefault(), PRICE_FORMAT, amount));
+                        mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, amount));
+                        mRaveData.setmItemPrice(amount);
                     }
                 }
             });
@@ -937,14 +939,14 @@ public class RaveDialog extends Dialog {
     private void showView(int viewNumber) {
         switch (viewNumber) {
             case CARD_DETAILS:
-                mInputAmountCard.setText(String.valueOf(mRaveData.getItemPrice()));
+                mInputAmountCard.setText(String.valueOf(mRaveData.getItemPrice() == 0.0 ? "" : mRaveData.getItemPrice()));
                 mCardDetailView.setVisibility(View.VISIBLE);
                 mAccountDetailView.setVisibility(View.GONE);
                 mAlertMessageView.setVisibility(View.GONE);
                 mOtpDetailView.setVisibility(View.GONE);
                 break;
             case ACCOUNT_DETAILS:
-                mInputAmountAccount.setText(String.valueOf(mRaveData.getItemPrice()));
+                mInputAmountAccount.setText(String.valueOf(mRaveData.getItemPrice() == 0.0 ? "" : mRaveData.getItemPrice()));
                 mCardDetailView.setVisibility(View.GONE);
                 mAccountDetailView.setVisibility(View.VISIBLE);
                 mAlertMessageView.setVisibility(View.GONE);

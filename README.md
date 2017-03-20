@@ -43,7 +43,8 @@ We hope to make rave available on Maven repo and Jcenter soon.
 
 ## How to use
 
-You can call Rave within your activity as shown below.
+You can call Rave within your activity as shown below with or without the item price.
+However, if you call rave with the item price, the Input field for Amount will be hidden, otherwise, it will be show.
 ```
 public class MainActivity extends AppCompatActivity {
 
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 RaveData raveData = new RaveData.Builder(
                         "Shawarma and Coke", // item name
                         "Shawarma and Coke for kenny", // item description
-                        1400.00, // item price
+                        1400.00, // item price or 0.0 if you want the user to input the amount
                         "FLWPUBK-XXXXX", // public key
                         "FLWSECK-XXXXX", // secret key
                         "test@gmail.com", // buyer's email address

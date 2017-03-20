@@ -1,7 +1,6 @@
 package com.flutterwave.rave.models;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 
 import java.util.List;
 import java.util.Map;
@@ -18,8 +17,8 @@ public abstract class BaseRequestData {
     private String txRef;
     private String country;
     private String currency;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private String narration;
     private List<Map<String, Object>> meta;
 
@@ -33,8 +32,8 @@ public abstract class BaseRequestData {
         this.txRef = txRef;
         this.country = country;
         this.currency = currency;
-        this.firstname = firstname;
-        this.lastname = lastname;
+        this.firstName = firstname;
+        this.lastName = lastname;
         this.narration = narration;
         this.meta = meta;
     }
@@ -72,11 +71,11 @@ public abstract class BaseRequestData {
     }
 
     public String getlastname() {
-        return lastname;
+        return lastName;
     }
 
     public String getfirstname() {
-        return firstname;
+        return firstName;
     }
 
     public String getcurrency() {
@@ -93,8 +92,8 @@ public abstract class BaseRequestData {
                 .add("txRef", txRef)
                 .add("country", country)
                 .add("currency", currency)
-                .add("firstname", firstname)
-                .add("lastname", lastname)
+                .add("firstName", firstName)
+                .add("lastName", lastName)
                 .add("narration", narration)
                 .add("meta", meta)
                 .toString();
