@@ -29,6 +29,8 @@
     <string name="remember_my_card">Remember My card</string>
     <string name="use_token">Use Token</string>
     <string name="enter_a_valid_amount">Enter a valid amount</string>
+    <string name="approved_successful">Approved. Successful</string>
+    <string name="item_cost_service_fee_total_cost">Item Cost + Service Fee = Total Cost</string>
 
     <string-array name="otp_option_array">
         <item>SELECT OTP option</item>

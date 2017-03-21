@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -77,6 +78,7 @@ public class RaveDialog extends Dialog {
     private static final int OTP_AND_ALERT_MESSAGE = 6;
     private static final int ACCOUNT_AND_ALERT_MESSAGE = 7;
     private static final String TAG = RaveDialog.class.getCanonicalName();
+    private final OnRaveResponseCallback mListener;
 
     private Button mPayBtn;
     private ImageButton mCloseButton;
@@ -123,7 +125,7 @@ public class RaveDialog extends Dialog {
     private List<String> mBankCodes = new ArrayList<String>();
 
 
-    public RaveDialog(Context context, RaveData data) {
+    public RaveDialog(@NonNull Context context, @NonNull RaveData data) {
         super(context, R.style.CustomDialogTheme);
         setContentView(R.layout.dialog_layout);
 
@@ -131,6 +133,20 @@ public class RaveDialog extends Dialog {
         fetchBanks();
 
         setWidgets();
+        mListener = null;
+
+    }
+
+    public RaveDialog(@NonNull Context context, @NonNull RaveData data, @NonNull OnRaveResponseCallback responseCallback) {
+        super(context, R.style.CustomDialogTheme);
+        setContentView(R.layout.dialog_layout);
+
+        mRaveData = data;
+        fetchBanks();
+
+        setWidgets();
+
+        mListener = responseCallback;
     }
 
     private void setWidgets() {
@@ -291,7 +307,7 @@ public class RaveDialog extends Dialog {
         mCvv = (EditText) findViewById(R.id.cvv);
 
         //set account number text field
-        mAccountNumber = (EditText) findViewById(R.id.acount_number);
+        mAccountNumber = (EditText) findViewById(R.id.account_number);
 
         //set the input text field
         mInputAmountCard = (EditText) findViewById(R.id.amount_card_segment);
@@ -644,6 +660,10 @@ public class RaveDialog extends Dialog {
                 mAlertMessage.setText(msg);
                 mAlertMessage.setBackgroundResource(R.drawable.curved_shape_curious_blue);
 
+                if (mListener != null) {
+                    mListener.onResponse(data);
+                }
+
                 showView(ALERT_MESSAGE);
                 mPayBtn.setText(R.string.close_form);
                 mPayBtn.setBackgroundResource(R.drawable.curved_shape);
@@ -664,7 +684,6 @@ public class RaveDialog extends Dialog {
             showView(CARD_AND_ALERT_MESSAGE);
         }
     }
-
 
     private void handleCardChargeResponse(Response response) {
         if (response != null) {
@@ -725,6 +744,10 @@ public class RaveDialog extends Dialog {
                             mAlertMessage.setText(msg);
                             mAlertMessage.setBackgroundResource(R.drawable.curved_shape_curious_blue);
 
+                            if (mListener != null) {
+                                mListener.onResponse(data);
+                            }
+
                             showView(ALERT_MESSAGE);
                             mPayBtn.setText(R.string.close_form);
                             mPayBtn.setBackgroundResource(R.drawable.curved_shape);
@@ -775,6 +798,11 @@ public class RaveDialog extends Dialog {
                     default:
                         // invalid auth model used
                         System.out.println("Invalid auth model used : " + (String) data.get("authModelUsed"));
+                        mAlertMessage.setText(("Invalid auth model used : " + (String) data.get("authModelUsed")));
+                        mAlertMessage.setBackgroundResource(R.drawable.curved_shape_dark_pastel_red);
+                        showView(ALERT_MESSAGE);
+                        mPayBtn.setText(R.string.close_form);
+
                         break;
 
                 }
@@ -847,6 +875,8 @@ public class RaveDialog extends Dialog {
                 String responseString = response.body().string();
                 Map<String, Object> mapResponse = RaveUtil.getMapFromJsonString(responseString);
                 Map<String, Object> data = (Map<String, Object>) mapResponse.get("data");
+
+                System.out.println("account charge response : " + data);
                 if (response.isSuccessful() && (data.get("chargeResponseCode").equals("02") || data.get("chargeResponseCode").equals("00"))) {
 
                     Number amount = (Number) data.get("amount");
@@ -873,7 +903,7 @@ public class RaveDialog extends Dialog {
                     // show error alert message  and account view
                     lockOrUnlockInputFields(true);
                     mAccountNumber.setError((String) data.get("message"));
-                    mPayBtn.setText(String.format(PAY_FORMAT, mRaveData.getItemPrice()));
+                    mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, mRaveData.getItemPrice()));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -882,7 +912,7 @@ public class RaveDialog extends Dialog {
             // response is null
             mAlertMessage.setText(R.string.network_error);
             mAlertMessage.setBackgroundResource(R.drawable.curved_shape_dark_pastel_red);
-            mPayBtn.setText(String.format(PAY_FORMAT, mRaveData.getItemPrice()));
+            mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, mRaveData.getItemPrice()));
             showView(ACCOUNT_AND_ALERT_MESSAGE);
         }
     }
@@ -898,6 +928,10 @@ public class RaveDialog extends Dialog {
                     if (data.get("acctvalrespcode").equals("02") || data.get("acctvalrespcode").equals("00")) {
                         mAlertMessage.setText((String) data.get("acctvalrespmsg"));
                         mAlertMessage.setBackgroundResource(R.drawable.curved_shape_curious_blue);
+
+                        if (mListener != null) {
+                            mListener.onResponse(data);
+                        }
 
                         showView(ALERT_MESSAGE);
                         mPayBtn.setText(R.string.close_form);
@@ -1103,5 +1137,14 @@ public class RaveDialog extends Dialog {
                 }
             });
         }
+    }
+
+
+    /**
+     * Interface to return response so that the user details can be updatede
+     */
+
+    public interface OnRaveResponseCallback {
+        void onResponse(Map<String, Object> data);
     }
 }
