@@ -542,9 +542,7 @@ public class RaveDialog extends Dialog {
             if (mInputAmountCard.getVisibility() == View.VISIBLE && mInputAmountCard.getText().length() == 0) {
                 mInputAmountCard.setError(getContext().getString(R.string.enter_a_valid_amount));
             }
-            if (mInputAmountAccount.getVisibility() == View.VISIBLE && mInputAmountAccount.getText().length() == 0) {
-                mInputAmountCard.setError(getContext().getString(R.string.enter_a_valid_amount));
-            }
+
             if (!mShouldUseToken) {
                 if (mCardNumber.getText().length() != 19) {
                     mCardNumber.setError(getContext().getString(R.string.card_field_error));
@@ -578,6 +576,9 @@ public class RaveDialog extends Dialog {
             if (mAccountNumber.getText().length() != 10) {
                 mAccountNumber.setError(getContext().getString(R.string.account_number_field_error));
                 isValid = false;
+            }
+            if (mInputAmountAccount.getVisibility() == View.VISIBLE && mInputAmountAccount.getText().length() == 0) {
+                mInputAmountAccount.setError(getContext().getString(R.string.enter_a_valid_amount));
             }
 
             if (mBankSpinner.getSelectedItem().toString().equals(getContext().getString(R.string.select_bank))) {
