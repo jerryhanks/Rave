@@ -2,6 +2,7 @@ package com.flutterwave.raveApp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -9,9 +10,12 @@ import com.flutterwave.rave.Components.RaveDialog;
 import com.flutterwave.rave.models.RaveData;
 import com.flutterwave.rave.utils.RaveAuthModel;
 
+import java.util.Map;
+import java.util.Timer;
+
 import flutterwave.com.raveApp.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RaveDialog.OnRaveResponseCallback {
 
     private Button raveButton;
 
@@ -103,5 +107,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public void onResponse(Map<String, Object> data) {
+        for (Map.Entry<String,Object> entry : data.entrySet()){
+            Log.i("POT","Entry Key :"+entry.getKey()+" Value: "+entry.getValue());
+        }
     }
 }

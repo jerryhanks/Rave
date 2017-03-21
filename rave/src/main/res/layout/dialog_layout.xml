@@ -189,7 +189,7 @@
                             android:clickable="false"
                             android:gravity="center"
                             android:padding="8dp"
-                            android:text="Approved. Successful"
+                            android:text="@string/approved_successful"
                             android:textColor="@color/white"
                             android:textSize="18sp" />
                     </LinearLayout>
@@ -216,7 +216,7 @@
                             android:visibility="gone" />
 
                         <EditText
-                            android:id="@+id/acount_number"
+                            android:id="@+id/account_number"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
@@ -238,7 +238,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="16dp"
-                            android:layout_marginTop="16dp" />
+                            android:layout_marginTop="8dp" />
 
                     </LinearLayout>
 
@@ -253,7 +253,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
-                            android:text="Item Cost + Service Fee = Total Cost"
+                            android:text="@string/item_cost_service_fee_total_cost"
                             android:textSize="14sp" />
 
                         <EditText
@@ -275,6 +275,7 @@
                             android:layout_marginTop="8dp"
                             android:digits="1234567890,. "
                             android:hint="@string/otp"
+                            android:imeOptions="actionGo"
                             android:inputType="number"
                             android:lines="1"
                             android:maxLength="5" />
@@ -308,6 +309,7 @@
                             android:layout_marginBottom="4dp"
                             android:layout_marginTop="4dp"
                             android:digits="1234567890 "
+                            android:drawableEnd="@drawable/bank_card_filled"
                             android:drawableRight="@drawable/bank_card_filled"
                             android:hint="@string/card_number"
                             android:imeOptions="actionNext"
@@ -356,7 +358,7 @@
                                 android:layout_weight="1"
                                 android:hint="@string/cvv"
                                 android:imeOptions="actionNext"
-                                android:inputType="number"
+                                android:inputType="numberPassword"
                                 android:lines="1"
                                 android:maxLength="3" />
 
