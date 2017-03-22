@@ -7,11 +7,11 @@ import android.view.View;
 import android.widget.Button;
 
 import com.flutterwave.rave.Components.RaveDialog;
+import com.flutterwave.rave.RaveDialogConfig;
 import com.flutterwave.rave.models.RaveData;
 import com.flutterwave.rave.utils.RaveAuthModel;
 
 import java.util.Map;
-import java.util.Timer;
 
 import flutterwave.com.raveApp.R;
 
@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity implements RaveDialog.OnRave
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        RaveDialogConfig.initialise(false);
 
         setContentView(R.layout.activity_main);
         raveButton = (Button) findViewById(R.id.rave_btn);
@@ -111,8 +113,8 @@ public class MainActivity extends AppCompatActivity implements RaveDialog.OnRave
 
     @Override
     public void onResponse(Map<String, Object> data) {
-        for (Map.Entry<String,Object> entry : data.entrySet()){
-            Log.i("POT","Entry Key :"+entry.getKey()+" Value: "+entry.getValue());
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            Log.i("POT", "Entry Key :" + entry.getKey() + " Value: " + entry.getValue());
         }
     }
 }

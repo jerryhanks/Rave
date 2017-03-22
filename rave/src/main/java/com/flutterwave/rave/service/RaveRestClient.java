@@ -1,6 +1,7 @@
 package com.flutterwave.rave.service;
 
-import com.flutterwave.rave.BuildConfig;
+
+import com.flutterwave.rave.RaveDialogConfig;
 
 import java.io.IOException;
 
@@ -16,7 +17,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
  */
 
 public class RaveRestClient {
-    private static final String BASE_URL = "http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api";
+    private static final String BASE_URL = RaveDialogConfig.BASE_URL;
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     public static Response post(String url, String json) throws IOException {
@@ -37,11 +38,11 @@ public class RaveRestClient {
 
     private static OkHttpClient getClient() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        if (BuildConfig.DEBUG) {
-            builder.addInterceptor(logging);
-        }
+        builder.addInterceptor(logging);
+
         return builder.build();
 
     }

@@ -197,13 +197,13 @@ public class RaveDialog extends Dialog {
                             String otp = mOtpNumber.getText().toString();
 
                             if (mIsAccountValidate) {
-                                Map<String, String> params = RaveUtil.buildValidateRequestParam(
+                                Map<String, String> params = RaveUtil.buildAccountValidateRequestParam(
                                         mRaveData.getPbfPubKey(),
                                         mValidateTxRef, otp
                                 );
                                 sendRequest(params, VALIDATE_ENDPOINT);
                             } else {
-                                Map<String, String> params = RaveUtil.buildValidateChargeRequestParam(
+                                Map<String, String> params = RaveUtil.buildCardValidateRequestParam(
                                         mRaveData.getPbfPubKey(),
                                         mValidateTxRef, otp
                                 );
@@ -670,7 +670,8 @@ public class RaveDialog extends Dialog {
                 mPayBtn.setTextColor(Color.BLACK);
 
             } else {
-                mAlertMessage.setText((String) data.get("message"));
+                //the error response does not have data
+                mAlertMessage.setText((String) mapResponse.get("message"));
                 mAlertMessage.setBackgroundResource(R.drawable.curved_shape_dark_pastel_red);
                 mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, mRaveData.getItemPrice()));
                 lockOrUnlockInputFields(true);
@@ -895,15 +896,22 @@ public class RaveDialog extends Dialog {
                     mAmountCharge.setText(amountMsg);
 
                     mOtpNumber.setEnabled(true);
-                    mValidateTxRef = (String) data.get("txRef");
+                    mValidateTxRef = (String) data.get("flwRef"); // TODO: 22/03/2017 Verify why this has to be txRef and not flwRef
                     mPayBtn.setText(R.string.validate_otp);
                     mIsAccountValidate = true;
                     showView(OTP_VIEW);
                 } else {
                     // show error alert message  and account view
                     lockOrUnlockInputFields(true);
-                    mAccountNumber.setError((String) data.get("message"));
+                    if (data.get("code").equals("LIMIT_ERR") && mInputAmountAccount.getVisibility() == View.VISIBLE) {
+                        mInputAmountAccount.setError((String) data.get("message"));
+                    } else {
+                        mAlertMessage.setText((String) data.get("message"));
+                        mAlertMessage.setBackgroundResource(R.drawable.curved_shape_dark_pastel_red);
+                        showView(ACCOUNT_AND_ALERT_MESSAGE);
+                    }
                     mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, mRaveData.getItemPrice()));
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -924,16 +932,18 @@ public class RaveDialog extends Dialog {
                 Map<String, Object> mapResponse = RaveUtil.getMapFromJsonString(responseString);
                 Map<String, Object> data = (Map<String, Object>) mapResponse.get("data");
 
+                System.out.print("Account Validate Response Data: "+response);
+
                 if (response.isSuccessful()) {
                     if (data.get("acctvalrespcode").equals("02") || data.get("acctvalrespcode").equals("00")) {
-                        mAlertMessage.setText((String) data.get("acctvalrespmsg"));
-                        mAlertMessage.setBackgroundResource(R.drawable.curved_shape_curious_blue);
-
                         if (mListener != null) {
                             mListener.onResponse(data);
                         }
 
+                        mAlertMessage.setText((String) data.get("acctvalrespmsg"));
+                        mAlertMessage.setBackgroundResource(R.drawable.curved_shape_curious_blue);
                         showView(ALERT_MESSAGE);
+
                         mPayBtn.setText(R.string.close_form);
                         mPayBtn.setBackgroundResource(R.drawable.curved_shape);
                         mPayBtn.setTextColor(Color.BLACK);
@@ -949,7 +959,8 @@ public class RaveDialog extends Dialog {
                     }
                 } else {
                     // show error alert message  and otp view
-                    mAlertMessage.setText((String) data.get("message"));
+                    //the error response does not have data
+                    mAlertMessage.setText((String) mapResponse.get("message"));
                     mAlertMessage.setBackgroundResource(R.drawable.curved_shape_dark_pastel_red);
                     mPayBtn.setText(R.string.close_form);
                     mPayBtn.setBackgroundResource(R.drawable.curved_shape);

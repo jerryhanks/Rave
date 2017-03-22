@@ -1,6 +1,7 @@
 package com.flutterwave.rave.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.flutterwave.rave.models.BaseRequestData;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -13,8 +14,6 @@ import java.util.Map;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.flutterwave.rave.models.BaseRequestData;
-
 /**
  * Created by Shittu on 22/12/2016.
  */
@@ -24,8 +23,8 @@ public class RaveUtil {
     private static final String PBF_PUB_KEY = "PBFPubKey";
     private static final String CLIENT = "client";
     private static final String ALG = "alg";
-    private static final String TX_REF = "txRef";
-    private static final String TRANSACTION_REF = "transaction_reference";
+    private static final String CARD_TRANSACTION_REF = "transaction_reference";
+    private static final String ACCOUNT_TRANSACTION_REF = "transactionreference"; // TODO: 22/03/2017 possible bug here transactionreference and not transaction_reference
     private static final String OTP = "otp";
     private static final String ALGORITHM = "DESede";
     private static final String TRANSFORMATION = "DESede/ECB/PKCS5Padding";
@@ -78,12 +77,12 @@ public class RaveUtil {
         return getMapFromJsonStringOrReader(null, jsonString);
     }
 
-    private static Map<String, Object> getMapFromJsonStringOrReader(Reader reader , String jsonString) {
+    private static Map<String, Object> getMapFromJsonStringOrReader(Reader reader, String jsonString) {
         ObjectMapper mapper = new ObjectMapper();
         Map map = new HashMap<>();
         // convert JSON string to Map
         try {
-            if(jsonString != null) {
+            if (jsonString != null) {
                 map = mapper.readValue(jsonString, Map.class);
             } else {
                 map = mapper.readValue(reader, Map.class);
@@ -104,21 +103,21 @@ public class RaveUtil {
         return params;
     }
 
-    public static Map<String, String> buildValidateRequestParam(String key, String txRef, String otp){
+    public static Map<String, String> buildAccountValidateRequestParam(String key, String txRef, String otp) {
         //set request params
         Map<String, String> params = new HashMap<>();
         params.put(PBF_PUB_KEY, key);
-        params.put(TX_REF, txRef);
+        params.put(ACCOUNT_TRANSACTION_REF, txRef);
         params.put(OTP, otp);
 
         return params;
     }
 
-    public static Map<String, String> buildValidateChargeRequestParam(String key, String txRef, String otp){
+    public static Map<String, String> buildCardValidateRequestParam(String key, String txRef, String otp) {
         //set request params
         Map<String, String> params = new HashMap<>();
         params.put(PBF_PUB_KEY, key);
-        params.put(TRANSACTION_REF, txRef);
+        params.put(CARD_TRANSACTION_REF, txRef);
         params.put(OTP, otp);
 
         return params;
@@ -133,7 +132,7 @@ public class RaveUtil {
             String encryptionKey = cleanSecret.substring(0, 12).concat(md5Hash.substring(hashLength - 12, hashLength));
 
             return encrypt(unEncryptedString, encryptionKey);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
