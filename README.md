@@ -2,22 +2,7 @@
 Rave is an android plugin for interacting with the Flutterwave payment api. It's easy to use and integrate into your existing project. Also, it takes away the extra UI design work, Rave has a nice custom dialog box (both portrait & landscape) for collecting transaction details from users.
 
 ## Design
-
-***
-<img src="screenshots/port1.png" alt="card" height = "400px" width = "220px"/>
-<img src="screenshots/port2.png" alt="card" height = "400px" width = "220px"/>
-<img src="screenshots/port3.png" alt="card" height = "400px" width = "220px"/>
-<img src="screenshots/port4.png" alt="card" height = "400px" width = "220px"/>
-<img src="screenshots/port5.png" alt="card" height = "400px" width = "220px"/>
-
-##
-<img src="screenshots/land1.png" alt="card" height = "400px" width = "220px"/>
-<img src="screenshots/land2.png" alt="card" height = "400px" width = "220px"/>
-<img src="screenshots/land3.png" alt="card" height = "400px" width = "220px"/>
-<img src="screenshots/land4.png" alt="card" height = "400px" width = "220px"/>
-<img src="screenshots/land5.png" alt="card" height = "400px" width = "220px"/>
-<img src="screenshots/land6.png" alt="card" height = "400px" width = "220px"/>
-<img src="screenshots/land7.png" alt="card" height = "400px" width = "220px"/>
+You can view the screenshots for the demo app [Here](/screenshots) 
 
 ## Dependencies
 
@@ -52,7 +37,7 @@ We hope to make rave available on Maven repo and Jcenter soon.
 ## How to use
 
 You can call Rave within your activity as shown below with or without the item price.
-However, if you call rave with the item price, the Input field for Amount will be hidden, otherwise, it will be show.
+However, if you call rave with the item price, the Input field for Amount will be hidden, otherwise, it will be shown.
 ```
 public class MainActivity extends AppCompatActivity {
 
