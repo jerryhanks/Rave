@@ -152,7 +152,7 @@ public class RaveDialog extends Dialog {
 
         //link and set pay button action
         mPayBtn = (Button) findViewById(R.id.pay_btn);
-        mPayBtn.setText(String.format(Locale.getDefault(),PAY_FORMAT, mRaveData.getItemPrice()));
+        mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, mRaveData.getItemPrice()));
 
         mPayBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -633,6 +633,7 @@ public class RaveDialog extends Dialog {
     }
 
     private void handleCardValidateResponse(Response response) {
+
         if (response != null) {
             Reader responseReader = response.body().charStream();
 
@@ -640,14 +641,10 @@ public class RaveDialog extends Dialog {
             Map<String, Object> data = (Map<String, Object>) mapResponse.get("data");
             Map<String, Object> innerData = (Map<String, Object>) data.get("data");
 
-            System.out.println("card charge response : " + mapResponse);
-            System.out.println("card charge response outter data: " + data);
-
             if (response.isSuccessful() && (innerData.get("responsecode").equals("02")
                     || innerData.get("responsecode").equals("00"))) {
 
                 // finished random debit
-                System.out.println("card charge response inner data: " + innerData);
 
                 String msg = (String) innerData.get("responsemessage");
                 if (mShouldRememberCardDetails) {
@@ -660,7 +657,7 @@ public class RaveDialog extends Dialog {
                 mAlertMessage.setBackgroundResource(R.drawable.curved_shape_curious_blue);
 
                 if (mListener != null) {
-                    mListener.onResponse(data);
+                    mListener.onResponse((Map<String, Object>) data.get("tx"));
                 }
 
                 showView(ALERT_MESSAGE);
@@ -745,7 +742,7 @@ public class RaveDialog extends Dialog {
                             mAlertMessage.setBackgroundResource(R.drawable.curved_shape_curious_blue);
 
                             if (mListener != null) {
-                                mListener.onResponse(data);
+                                mListener.onResponse((Map<String, Object>) data.get("tx"));
                             }
 
                             showView(ALERT_MESSAGE);
@@ -935,6 +932,7 @@ public class RaveDialog extends Dialog {
 
                 if (response.isSuccessful()) {
                     if (data.get("acctvalrespcode").equals("02") || data.get("acctvalrespcode").equals("00")) {
+
                         if (mListener != null) {
                             mListener.onResponse(data);
                         }
