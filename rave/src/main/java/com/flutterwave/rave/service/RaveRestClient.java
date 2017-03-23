@@ -1,6 +1,7 @@
 package com.flutterwave.rave.service;
 
 
+import com.flutterwave.rave.BuildConfig;
 import com.flutterwave.rave.RaveDialogConfig;
 
 import java.io.IOException;
@@ -38,8 +39,9 @@ public class RaveRestClient {
 
     private static OkHttpClient getClient() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
+        if (BuildConfig.DEBUG) {
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        }
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addInterceptor(logging);
 
