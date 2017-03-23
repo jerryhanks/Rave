@@ -112,3 +112,5 @@ modules.xml
 *.ipr
 
 # End of https://www.gitignore.io/api/intellij+iml,android
+
+/rave/src/main/java/com/flutterwave/rave/jsonModels/
