@@ -81,7 +81,6 @@ public class RaveDialog extends Dialog {
     private final OnRaveResponseCallback mListener;
 
     private Button mPayBtn;
-    private ImageButton mCloseButton;
     private RaveData mRaveData;
 
     private RadioButton mCardButton;
@@ -153,7 +152,7 @@ public class RaveDialog extends Dialog {
 
         //link and set pay button action
         mPayBtn = (Button) findViewById(R.id.pay_btn);
-        mPayBtn.setText(String.format(PAY_FORMAT, mRaveData.getItemPrice()));
+        mPayBtn.setText(String.format(Locale.getDefault(),PAY_FORMAT, mRaveData.getItemPrice()));
 
         mPayBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -263,7 +262,7 @@ public class RaveDialog extends Dialog {
         mAlertMessageView = (LinearLayout) findViewById(R.id.alert_message_view);
 
         //set close image button
-        mCloseButton = (ImageButton) findViewById(R.id.close_btn);
+        ImageButton mCloseButton = (ImageButton) findViewById(R.id.close_btn);
         mCloseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -932,7 +931,7 @@ public class RaveDialog extends Dialog {
                 Map<String, Object> mapResponse = RaveUtil.getMapFromJsonString(responseString);
                 Map<String, Object> data = (Map<String, Object>) mapResponse.get("data");
 
-                System.out.print("Account Validate Response Data: "+response);
+                System.out.print("Account Validate Response Data: " + response);
 
                 if (response.isSuccessful()) {
                     if (data.get("acctvalrespcode").equals("02") || data.get("acctvalrespcode").equals("00")) {
@@ -1051,7 +1050,9 @@ public class RaveDialog extends Dialog {
         mOtpNumber.setEnabled(unLock);
         mCardPin.setEnabled(unLock);
         mUseToken.setEnabled(unLock);
-        mUserToken.setEnabled(unLock);
+        if (mUserToken != null) {
+            mUserToken.setEnabled(unLock); // Throws null pointer exception
+        }
         mRememberBox.setEnabled(unLock);
     }
 

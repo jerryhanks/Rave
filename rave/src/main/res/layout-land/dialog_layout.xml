@@ -163,8 +163,8 @@
                                 android:layout_weight="1"
                                 android:background="@color/martinique"
                                 android:drawableLeft="@drawable/bank_card_small"
-                                android:drawableStart="@drawable/bank_card_small"
                                 android:drawablePadding="-45dp"
+                                android:drawableStart="@drawable/bank_card_small"
                                 android:gravity="center"
                                 android:paddingBottom="16dp"
                                 android:paddingLeft="45dp"
@@ -182,8 +182,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:drawableLeft="@drawable/account_small_filled"
-                                android:drawableStart="@drawable/account_small_filled"
                                 android:drawablePadding="-32dp"
+                                android:drawableStart="@drawable/account_small_filled"
                                 android:gravity="center"
                                 android:paddingBottom="16dp"
                                 android:paddingLeft="32dp"
@@ -273,13 +273,32 @@
                             android:orientation="vertical"
                             android:visibility="gone">
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:text="@string/item_cost_service_fee_total_cost"
+                                android:textSize="14sp" />
+
                             <EditText
-                                android:id="@+id/otp_number"
+                                android:id="@+id/amount_charged"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="8dp"
                                 android:layout_marginTop="8dp"
+                                android:enabled="false"
+                                android:hint="@string/amount_charged"
+                                android:inputType="text"
+                                android:lines="1" />
+
+                            <EditText
+                                android:id="@+id/otp_number"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:digits="1234567890,. "
                                 android:hint="@string/otp"
+                                android:imeOptions="actionGo"
                                 android:inputType="number"
                                 android:lines="1"
                                 android:maxLength="5" />
@@ -338,6 +357,20 @@
                                     android:inputType="date"
                                     android:lines="1"
                                     android:maxLength="5" />
+
+                                <EditText
+                                    android:id="@+id/user_token"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="4dp"
+                                    android:layout_marginTop="4dp"
+                                    android:layout_weight="1"
+                                    android:hint="@string/token"
+                                    android:imeOptions="actionNext"
+                                    android:inputType="text"
+                                    android:lines="1"
+                                    android:maxLength="5"
+                                    android:visibility="gone" />
 
                                 <EditText
                                     android:id="@+id/cvv"
