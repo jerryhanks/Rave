@@ -21,3 +21,18 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext{
+    //support version
+    supportVersion = '25.3.1'
+    //guava Version
+    guavaVersion = '20.0'
+    //retrofit
+    retrofitVersion = '2.2.0'
+    //gsonVersion
+    gsonVersion = "2.6.1"
+    //interceptor version
+    inteceptorVersion = "3.5.0"
+    //code version
+    codecVersion = '1.10'
+}

@@ -22,17 +22,16 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'commons-codec:commons-codec:1.10'
-    compile 'com.google.guava:guava:20.0'
-    compile 'com.squareup.okhttp3:okhttp:3.5.0'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.7.2'
-
-    //adding ok http logger
-    compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
+    compile "com.android.support:appcompat-v7:$rootProject.supportVersion"
+    compile "commons-codec:commons-codec:$rootProject.codecVersion"
+    compile "com.squareup.okhttp3:logging-interceptor:$rootProject.inteceptorVersion"
+    compile "com.google.guava:guava:$rootProject.guavaVersion"
+    compile "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.0'
+
     testCompile 'junit:junit:4.12'
 }

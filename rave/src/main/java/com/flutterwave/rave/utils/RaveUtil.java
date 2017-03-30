@@ -1,12 +1,13 @@
 package com.flutterwave.rave.utils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.flutterwave.rave.models.BaseRequestData;
+import com.flutterwave.rave.models.request.BaseRequestData;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.codec.binary.Base64;
 
-import java.io.IOException;
-import java.io.Reader;
+import java.lang.reflect.Type;
 import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,12 +21,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class RaveUtil {
 
-    private static final String PBF_PUB_KEY = "PBFPubKey";
-    private static final String CLIENT = "client";
-    private static final String ALG = "alg";
-    private static final String CARD_TRANSACTION_REF = "transaction_reference";
-    private static final String ACCOUNT_TRANSACTION_REF = "transactionreference"; // TODO: 22/03/2017 possible bug here transactionreference and not transaction_reference
-    private static final String OTP = "otp";
     private static final String ALGORITHM = "DESede";
     private static final String TRANSFORMATION = "DESede/ECB/PKCS5Padding";
     private static final String TARGET = "FLWSECK-";
@@ -33,6 +28,10 @@ public class RaveUtil {
     private static final String CHARSET_NAME = "UTF-8";
     private static final String INVALID_ARGUMENT = "Invalid Argument";
     private static final String UTF_8 = "utf-8";
+
+    //used for all serialization and deserialization
+    private static Gson gson = new GsonBuilder()
+            .create();
 
     public static String addPadding(String t, String s, int num) {
         StringBuilder retVal;
@@ -59,68 +58,17 @@ public class RaveUtil {
     }
 
     public static String getJsonStringFromRequestData(BaseRequestData requestData) {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setPropertyNamingStrategy(new CustomPropertyNamingStrategy());
-        try {
-            return mapper.writeValueAsString(requestData);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+
+        return gson.toJson(requestData);
+
     }
 
-    public static Map<String, Object> getMapFromJsonReader(Reader reader) {
-        return getMapFromJsonStringOrReader(reader, null);
-    }
-
+    @Deprecated
     public static Map<String, Object> getMapFromJsonString(String jsonString) {
-        return getMapFromJsonStringOrReader(null, jsonString);
-    }
+        Type type = new TypeToken<HashMap<String, Object>>() {
+        }.getType();
 
-    private static Map<String, Object> getMapFromJsonStringOrReader(Reader reader, String jsonString) {
-        ObjectMapper mapper = new ObjectMapper();
-        Map map = new HashMap<>();
-        // convert JSON string to Map
-        try {
-            if (jsonString != null) {
-                map = mapper.readValue(jsonString, Map.class);
-            } else {
-                map = mapper.readValue(reader, Map.class);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return map;
-    }
-
-    public static Map<String, String> buildChargeRequestParam(String key, String data) {
-        //set request params
-        Map<String, String> params = new HashMap<>();
-        params.put(PBF_PUB_KEY, key);
-        params.put(CLIENT, data);
-        params.put(ALG, "3DES-24");
-
-        return params;
-    }
-
-    public static Map<String, String> buildAccountValidateRequestParam(String key, String txRef, String otp) {
-        //set request params
-        Map<String, String> params = new HashMap<>();
-        params.put(PBF_PUB_KEY, key);
-        params.put(ACCOUNT_TRANSACTION_REF, txRef);
-        params.put(OTP, otp);
-
-        return params;
-    }
-
-    public static Map<String, String> buildCardValidateRequestParam(String key, String txRef, String otp) {
-        //set request params
-        Map<String, String> params = new HashMap<>();
-        params.put(PBF_PUB_KEY, key);
-        params.put(CARD_TRANSACTION_REF, txRef);
-        params.put(OTP, otp);
-
-        return params;
+        return new Gson().fromJson(jsonString, type);
     }
 
     public static String getEncryptedData(String unEncryptedString, String secret) {
@@ -131,19 +79,19 @@ public class RaveUtil {
             int hashLength = md5Hash.length();
             String encryptionKey = cleanSecret.substring(0, 12).concat(md5Hash.substring(hashLength - 12, hashLength));
 
-            return encrypt(unEncryptedString, encryptionKey);
+            return harden(unEncryptedString, encryptionKey);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    private static String encrypt(String data, String key) throws Exception {
+    private static String harden(String data, String key) throws Exception {
         byte[] keyBytes = key.getBytes(UTF_8);
-        SecretKeySpec skey = new SecretKeySpec(keyBytes, ALGORITHM);
+        SecretKeySpec sKey = new SecretKeySpec(keyBytes, ALGORITHM);
         Cipher cipher = Cipher.getInstance(TRANSFORMATION);
 
-        cipher.init(Cipher.ENCRYPT_MODE, skey);
+        cipher.init(Cipher.ENCRYPT_MODE, sKey);
         byte[] plainTextBytes = data.getBytes(UTF_8);
         byte[] buf = cipher.doFinal(plainTextBytes);
         byte[] base64Bytes = Base64.encodeBase64(buf);

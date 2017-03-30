@@ -1,6 +1,7 @@
-package com.flutterwave.rave.models;
+package com.flutterwave.rave.models.request;
 
 import com.google.common.base.MoreObjects;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 import java.util.Map;
@@ -10,17 +11,23 @@ import java.util.Map;
  */
 
 public class ShortCodeRequestData extends BaseRequestData {
+
+    @SerializedName("cvv")
     private String cvv;
-    private String shortcode;
+
+    @SerializedName("shotcode")
+    private String shortCode;
+
+    @SerializedName("pin")
     private String pin;
 
     public ShortCodeRequestData(String PBFPubKey, String amount, String email, String IP,
                                 String txRef, String country, String currency, String firstname,
-                                String lastname, String narration, List<Map<String, Object>> meta,
-                                String cvv, String shortcode, String pin) {
-        super(PBFPubKey, amount, email, IP, txRef, country, currency, firstname, lastname, narration, meta);
+                                String lastName, String narration, List<Map<String, Object>> meta,
+                                String cvv, String shortCode, String pin) {
+        super(PBFPubKey, amount, email, IP, txRef, country, currency, firstname, lastName, narration, meta);
         this.cvv = cvv;
-        this.shortcode = shortcode;
+        this.shortCode = shortCode;
         this.pin = pin;
     }
 
@@ -29,7 +36,7 @@ public class ShortCodeRequestData extends BaseRequestData {
     }
 
     public String getshortcode() {
-        return shortcode;
+        return shortCode;
     }
 
     public String getpin() {
@@ -41,7 +48,7 @@ public class ShortCodeRequestData extends BaseRequestData {
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("cvv", cvv)
-                .add("shortcode", shortcode)
+                .add("shortCode", shortCode)
                 .add("pin", pin)
                 .toString();
     }

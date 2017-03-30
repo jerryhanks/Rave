@@ -38,8 +38,8 @@
 
                 <ImageButton
                     android:id="@+id/close_btn"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:layout_margin="16dp"
@@ -54,7 +54,7 @@
                     android:orientation="horizontal"
                     android:weightSum="10">
 
-                    <com.flutterwave.rave.Components.SquareImageView
+                    <com.flutterwave.rave.components.SquareImageView
                         android:id="@+id/item_img"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
@@ -144,10 +144,14 @@
                             android:layout_weight="1"
                             android:background="@color/martinique"
                             android:drawableLeft="@drawable/bank_card_small"
-                            android:drawablePadding="-45dp"
+                            android:drawablePadding="-40dp"
+                            android:drawableStart="@drawable/bank_card_small"
                             android:gravity="center"
                             android:paddingBottom="16dp"
+                            android:paddingEnd="0dp"
                             android:paddingLeft="45dp"
+                            android:paddingRight="0dp"
+                            android:paddingStart="45dp"
                             android:paddingTop="16dp"
                             android:text="@string/card"
                             android:textAllCaps="true"
@@ -162,9 +166,13 @@
                             android:layout_weight="1"
                             android:drawableLeft="@drawable/account_small_filled"
                             android:drawablePadding="-32dp"
+                            android:drawableStart="@drawable/account_small_filled"
                             android:gravity="center"
                             android:paddingBottom="16dp"
+                            android:paddingEnd="0dp"
                             android:paddingLeft="32dp"
+                            android:paddingRight="0dp"
+                            android:paddingStart="32dp"
                             android:paddingTop="16dp"
                             android:text="@string/account"
                             android:textAllCaps="true"
@@ -311,6 +319,7 @@
                             android:drawableEnd="@drawable/bank_card_filled"
                             android:drawableRight="@drawable/bank_card_filled"
                             android:hint="@string/card_number"
+                            android:text="5438898014560229"
                             android:imeOptions="actionNext"
                             android:inputType="number"
                             android:lines="1"
