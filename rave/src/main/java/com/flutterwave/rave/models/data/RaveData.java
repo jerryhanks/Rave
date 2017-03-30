@@ -1,4 +1,4 @@
-package com.flutterwave.rave.models;
+package com.flutterwave.rave.models.data;
 
 import android.graphics.Bitmap;
 

@@ -1,4 +1,4 @@
-package com.flutterwave.rave.Components;
+package com.flutterwave.rave.components;
 
 import android.text.Editable;
 import android.text.TextWatcher;

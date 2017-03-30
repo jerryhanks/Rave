@@ -1,6 +1,7 @@
-package com.flutterwave.rave.models;
+package com.flutterwave.rave.models.request;
 
 import com.google.common.base.MoreObjects;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 import java.util.Map;
@@ -11,21 +12,28 @@ import java.util.Map;
 
 public class AccountChargeRequestData extends BaseRequestData {
 
+    @SerializedName("accountnumber")
     private String accountNumber;
+
+    @SerializedName("accountbank")
     private String accountBank;
+
+    @SerializedName("validateoption")
     private String validateOption;
-    private String payment_type;
+
+    @SerializedName("payment_type")
+    private String paymentType;
 
 
     public AccountChargeRequestData(String PBFPubKey, String amount, String email, String IP,
-                                    String txRef, String country, String currency, String firstname,
-                                    String lastname, String narration, List<Map<String, Object>> meta,
-                                    String accountnumber, String accountbank, String validateoption) {
-        super(PBFPubKey, amount, email, IP, txRef, country, currency, firstname, lastname, narration, meta);
-        this.accountNumber = accountnumber;
-        this.accountBank = accountbank;
-        this.validateOption = validateoption;
-        this.payment_type = "account";
+                                    String txRef, String country, String currency, String firstName,
+                                    String lastName, String narration, List<Map<String, Object>> meta,
+                                    String accountNumber, String accountBank, String validateOption) {
+        super(PBFPubKey, amount, email, IP, txRef, country, currency, firstName, lastName, narration, meta);
+        this.accountNumber = accountNumber;
+        this.accountBank = accountBank;
+        this.validateOption = validateOption;
+        this.paymentType = "account";
     }
 
     public String getaccountnumber() {
@@ -37,7 +45,7 @@ public class AccountChargeRequestData extends BaseRequestData {
     }
 
     public String getpayment_type() {
-        return payment_type;
+        return paymentType;
     }
 
     public String getvalidateoption() {
@@ -50,7 +58,7 @@ public class AccountChargeRequestData extends BaseRequestData {
                 .add("accountNumber", accountNumber)
                 .add("accountBank", accountBank)
                 .add("validateOption", validateOption)
-                .add("payment_type", payment_type)
+                .add("paymentType", paymentType)
                 .toString();
     }
 }
