@@ -1,6 +1,7 @@
-package com.flutterwave.rave.models;
+package com.flutterwave.rave.models.request;
 
 import com.google.common.base.MoreObjects;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 import java.util.Map;
@@ -10,20 +11,30 @@ import java.util.Map;
  */
 
 public abstract class BaseRequestData {
+
+    @SerializedName("PBFPubKey")
     private String PBFPubKey;
     private String amount;
     private String email;
+    @SerializedName("IP")
     private String IP;
+
+    @SerializedName("txRef")
     private String txRef;
     private String country;
     private String currency;
+
+    @SerializedName("firstname")
     private String firstName;
+
+    @SerializedName("lastname")
     private String lastName;
+
     private String narration;
     private List<Map<String, Object>> meta;
 
     public BaseRequestData(String PBFPubKey, String amount, String email, String IP, String txRef,
-                           String country, String currency, String firstname, String lastname,
+                           String country, String currency, String firstName, String lastName,
                            String narration, List<Map<String, Object>> meta) {
         this.PBFPubKey = PBFPubKey;
         this.amount = amount;
@@ -32,8 +43,8 @@ public abstract class BaseRequestData {
         this.txRef = txRef;
         this.country = country;
         this.currency = currency;
-        this.firstName = firstname;
-        this.lastName = lastname;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.narration = narration;
         this.meta = meta;
     }
