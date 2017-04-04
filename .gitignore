@@ -21,7 +21,6 @@ out/
 
 # Gradle files
 .gradle
-.gradle/
 build/
 
 # Signing files
@@ -102,7 +101,6 @@ Thumbs.db
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.ear
 
@@ -128,3 +126,11 @@ fabric.properties
 
 # End of https://www.gitignore.io/api/androidstudio
 /jsonModels/
+
+### Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties

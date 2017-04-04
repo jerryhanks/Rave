@@ -22,7 +22,7 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-ext{
+ext {
     //support version
     supportVersion = '25.3.1'
     //guava Version

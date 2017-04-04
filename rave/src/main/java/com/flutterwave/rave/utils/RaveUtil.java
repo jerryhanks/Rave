@@ -9,6 +9,7 @@ import org.apache.commons.codec.binary.Base64;
 
 import java.lang.reflect.Type;
 import java.security.MessageDigest;
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -110,4 +111,13 @@ public class RaveUtil {
         return sb.toString();
     }
 
+    public static String getTxRef() {
+        String ints = "0123456789";
+        SecureRandom rnd = new SecureRandom();
+        StringBuilder sb = new StringBuilder("rave-checkout-");
+        for (int i = 0; i < 10; i++) {
+            sb.append(ints.charAt(rnd.nextInt(ints.length())));
+        }
+        return sb.toString();
+    }
 }

@@ -101,6 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="1"
@@ -282,7 +283,7 @@
                             android:layout_marginTop="8dp"
                             android:digits="1234567890,. "
                             android:hint="@string/otp"
-                            android:imeOptions="actionGo"
+                            android:imeOptions="actionDone"
                             android:inputType="number"
                             android:lines="1"
                             android:maxLength="5" />
@@ -319,11 +320,11 @@
                             android:drawableEnd="@drawable/bank_card_filled"
                             android:drawableRight="@drawable/bank_card_filled"
                             android:hint="@string/card_number"
-                            android:text="5438898014560229"
                             android:imeOptions="actionNext"
                             android:inputType="number"
                             android:lines="1"
-                            android:maxLength="19" />
+                            android:maxLength="19"
+                            android:text="5438898014560229" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -395,6 +396,7 @@
                                 android:id="@+id/remember_card"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:onClick="rememberCard"
                                 android:text="@string/remember_my_card"
                                 android:textColor="@color/black" />
@@ -403,6 +405,7 @@
                                 android:id="@+id/use_token"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:onClick="useToken"
                                 android:text="@string/use_token"
                                 android:textColor="@color/black" />
@@ -411,7 +414,9 @@
 
 
                     </LinearLayout>
+
                 </LinearLayout>
+
 
                 <Button
                     android:id="@+id/pay_btn"

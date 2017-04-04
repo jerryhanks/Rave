@@ -287,6 +287,7 @@
                                 android:layout_marginBottom="8dp"
                                 android:layout_marginTop="8dp"
                                 android:enabled="false"
+                                android:imeOptions="actionDone"
                                 android:hint="@string/amount_charged"
                                 android:inputType="text"
                                 android:lines="1" />
@@ -395,7 +396,7 @@
                                     android:digits="1234567890 "
                                     android:hint="@string/card_pin"
                                     android:imeOptions="actionDone"
-                                    android:inputType="numberPassword"
+                                    android:inputType="number|numberPassword"
                                     android:lines="1"
                                     android:maxLength="4" />
                             </LinearLayout>
@@ -410,6 +411,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:onClick="rememberCard"
+                                    android:layout_weight="1"
                                     android:text="@string/remember_my_card"
                                     android:textColor="@color/black" />
 
@@ -419,11 +421,25 @@
                                     android:layout_height="wrap_content"
                                     android:onClick="useToken"
                                     android:text="@string/use_token"
+                                    android:layout_weight="1
+"
                                     android:textColor="@color/black" />
 
                             </LinearLayout>
 
 
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/progress_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="gone"
+                            android:padding="16dp">
+
+                            <ProgressBar
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -431,7 +447,6 @@
                         android:id="@+id/pay_btn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/input_details"
                         android:layout_marginTop="5dp"
                         android:background="@drawable/curved_shape_niagara"
                         android:padding="8dp"

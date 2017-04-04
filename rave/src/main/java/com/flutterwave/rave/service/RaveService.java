@@ -13,6 +13,8 @@ import com.flutterwave.rave.models.response.ChargeResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 /**
@@ -23,6 +25,7 @@ public interface RaveService {
     /**
      * Lists all the banks available and open for transaction
      */
+    @Headers("Cache-Control: max-age=86400,max-stale=86400")
     @GET("banks")
     Call<BankResponse> getBanks();
 

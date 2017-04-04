@@ -3,6 +3,7 @@
     package="flutterwave.com.raveApp" >
 
     <application
+        android:name="com.flutterwave.raveApp.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
