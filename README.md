@@ -174,8 +174,8 @@ public class MainActivity extends AppCompatActivity implements RaveDialog.OnRave
                         "FLWPUBK-XXXXX", // public key
                         "FLWSECK-XXXXX", // secret key
                         "test@gmail.com", // buyer's email address
-                        "FLW-TXREF-XXXXX", // tx-ref
-                        false // this boolean field specifies if auth model used is PIN(true) or other(false)
+                        RaveUtil.getTxRef(), // tx-ref which must beunique for a given transaction
+                        RaveAuthModel, //The AuthModel to use for the Current trasaction.
                         )
                         .build();
 
