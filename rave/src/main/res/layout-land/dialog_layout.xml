@@ -287,6 +287,7 @@
                                 android:layout_marginBottom="8dp"
                                 android:layout_marginTop="8dp"
                                 android:enabled="false"
+                                android:imeOptions="actionDone"
                                 android:hint="@string/amount_charged"
                                 android:inputType="text"
                                 android:lines="1" />
@@ -381,7 +382,7 @@
                                     android:layout_weight="1"
                                     android:hint="@string/cvv"
                                     android:imeOptions="actionNext"
-                                    android:inputType="number|numberPassword"
+                                    android:inputType="numberPassword"
                                     android:lines="1"
                                     android:maxLength="3" />
 
@@ -446,7 +447,6 @@
                         android:id="@+id/pay_btn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/input_details"
                         android:layout_marginTop="5dp"
                         android:background="@drawable/curved_shape_niagara"
                         android:padding="8dp"

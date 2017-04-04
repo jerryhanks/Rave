@@ -13,6 +13,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Rave.initEnvironment(Rave.ENV_TESTING);
+        Rave.initEnvironment(this,Rave.ENV_TESTING);
     }
 }

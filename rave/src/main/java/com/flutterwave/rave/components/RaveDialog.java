@@ -13,6 +13,7 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -48,6 +49,7 @@ import com.flutterwave.rave.utils.RaveAuthModel;
 import com.flutterwave.rave.utils.RaveUtil;
 import com.google.common.base.Optional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -83,8 +85,8 @@ public class RaveDialog extends Dialog implements View.OnKeyListener, View.OnCli
     private Button mPayBtn;
     private RaveData mRaveData;
 
-    private RadioButton mCardButton;
-    private RadioButton mAccountButton;
+    private RadioButton mCardSelectButton;
+    private RadioButton mAccountSelectButton;
 
     private LinearLayout mCardDetailView;
     private LinearLayout mAccountDetailView;
@@ -122,6 +124,7 @@ public class RaveDialog extends Dialog implements View.OnKeyListener, View.OnCli
     private String mUserCode = "";
     private List<String> mBankNames = new ArrayList<String>();
     private List<String> mBankCodes = new ArrayList<String>();
+    private TextView itemPrice;
 
 
     public RaveDialog(@NonNull Context context, @NonNull RaveData data) {
@@ -175,7 +178,7 @@ public class RaveDialog extends Dialog implements View.OnKeyListener, View.OnCli
         itemDescription.setText(mRaveData.getItemDescription());
 
         //set item price
-        final TextView itemPrice = (TextView) findViewById(R.id.item_price);
+        itemPrice = (TextView) findViewById(R.id.item_price);
         itemPrice.setText(String.format(Locale.getDefault(), PRICE_FORMAT, mRaveData.getItemPrice()));
 
         //set message text view
@@ -189,8 +192,8 @@ public class RaveDialog extends Dialog implements View.OnKeyListener, View.OnCli
         mCloseButton.setOnClickListener(this);
 
         //set Radio Buttons
-        mCardButton = (RadioButton) findViewById(R.id.card_segment_btn);
-        mAccountButton = (RadioButton) findViewById(R.id.account_segment_btn);
+        mCardSelectButton = (RadioButton) findViewById(R.id.card_segment_btn);
+        mAccountSelectButton = (RadioButton) findViewById(R.id.account_segment_btn);
 
         //set detail view
         mCardDetailView = (LinearLayout) findViewById(R.id.card_segment_view);
@@ -200,8 +203,8 @@ public class RaveDialog extends Dialog implements View.OnKeyListener, View.OnCli
         mOtpNumber = (EditText) findViewById(R.id.otp_number);
 
         //set onClick Listener
-        mCardButton.setOnClickListener(this);
-        mAccountButton.setOnClickListener(this);
+        mCardSelectButton.setOnClickListener(this);
+        mAccountSelectButton.setOnClickListener(this);
 
         //set cvv text field
         mCvv = (EditText) findViewById(R.id.cvv);
@@ -223,12 +226,7 @@ public class RaveDialog extends Dialog implements View.OnKeyListener, View.OnCli
                 @Override
                 public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                     //update the payButton and the item price tv
-                    double amount = charSequence.length() == 0 ? 0.0 : Double.parseDouble(charSequence.toString());
-                    if (count >= 0) {
-                        itemPrice.setText(String.format(Locale.getDefault(), PRICE_FORMAT, amount));
-                        mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, amount));
-                        mRaveData.setmItemPrice(amount);
-                    }
+                    updateItemPriceTV(charSequence, count);
                 }
             });
 
@@ -237,12 +235,7 @@ public class RaveDialog extends Dialog implements View.OnKeyListener, View.OnCli
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int count) {
                     //update the payButton and the item price tv
-                    double amount = charSequence.length() == 0 ? 0.0 : Double.parseDouble(charSequence.toString());
-                    if (count >= 0) {
-                        itemPrice.setText(String.format(Locale.getDefault(), PRICE_FORMAT, amount));
-                        mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, amount));
-                        mRaveData.setmItemPrice(amount);
-                    }
+                    updateItemPriceTV(charSequence, count);
                 }
             });
 
@@ -266,7 +259,12 @@ public class RaveDialog extends Dialog implements View.OnKeyListener, View.OnCli
 
         if (mRaveData.getAuthModel().equals(RaveAuthModel.PIN)) {
             mCardPin.setVisibility(View.VISIBLE);
+            //If the pin Ed is visible, make it to have imeOptions of done
+            //and the otp to have imeOptions next
+            mCardPin.setImeOptions(EditorInfo.IME_ACTION_DONE);
+            mCvv.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         } else {
+            mCvv.setImeOptions(EditorInfo.IME_ACTION_DONE);
             mCardPin.setVisibility(View.GONE);
         }
 
@@ -275,6 +273,15 @@ public class RaveDialog extends Dialog implements View.OnKeyListener, View.OnCli
 
         mUseToken.setOnClickListener(this);
 
+    }
+
+    private void updateItemPriceTV(CharSequence charSequence, int count) {
+        double amount = charSequence.length() == 0 ? 0.0 : Double.parseDouble(charSequence.toString());
+        if (count >= 0) {
+            itemPrice.setText(String.format(Locale.getDefault(), PRICE_FORMAT, amount));
+            mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, amount));
+            mRaveData.setmItemPrice(amount);
+        }
     }
 
     private void fetchBanks() {
@@ -327,10 +334,10 @@ public class RaveDialog extends Dialog implements View.OnKeyListener, View.OnCli
     }
 
     private void updateSegmentIcons(int cardDrawableId, int accountDrawableId) {
-        mCardButton.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getContext(), cardDrawableId), null, null, null);
-        mAccountButton.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getContext(), accountDrawableId), null, null, null);
-        mCardButton.invalidate();
-        mAccountButton.invalidate();
+        mCardSelectButton.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getContext(), cardDrawableId), null, null, null);
+        mAccountSelectButton.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getContext(), accountDrawableId), null, null, null);
+        mCardSelectButton.invalidate();
+        mAccountSelectButton.invalidate();
     }
 
     private void updateBackground(RadioButton checked, RadioButton unChecked) {
@@ -844,16 +851,17 @@ public class RaveDialog extends Dialog implements View.OnKeyListener, View.OnCli
 //    }
 
     private void showView(int viewNumber) {
+        BigDecimal amount = BigDecimal.valueOf(mRaveData.getItemPrice());
         switch (viewNumber) {
             case CARD_DETAILS:
-                mInputAmountCard.setText(String.valueOf(mRaveData.getItemPrice() == 0.0 ? "" : mRaveData.getItemPrice()));
+                mInputAmountCard.setText(amount.toPlainString());
                 mCardDetailView.setVisibility(View.VISIBLE);
                 mAccountDetailView.setVisibility(View.GONE);
                 mAlertMessageView.setVisibility(View.GONE);
                 mOtpDetailView.setVisibility(View.GONE);
                 break;
             case ACCOUNT_DETAILS:
-                mInputAmountAccount.setText(String.valueOf(mRaveData.getItemPrice() == 0.0 ? "" : mRaveData.getItemPrice()));
+                mInputAmountAccount.setText(amount.toPlainString());
                 mCardDetailView.setVisibility(View.GONE);
                 mAccountDetailView.setVisibility(View.VISIBLE);
                 mAlertMessageView.setVisibility(View.GONE);
@@ -895,8 +903,8 @@ public class RaveDialog extends Dialog implements View.OnKeyListener, View.OnCli
 
 
     private void lockOrUnlockInputFields(boolean unLock) {
-        mCardButton.setEnabled(unLock);
-        mAccountButton.setEnabled(unLock);
+        mCardSelectButton.setEnabled(unLock);
+        mAccountSelectButton.setEnabled(unLock);
         mAccountNumber.setEnabled(unLock);
         if (mBankSpinner != null) { // might be null if there's no internet connect on client device
             mBankSpinner.setEnabled(unLock);
@@ -904,6 +912,11 @@ public class RaveDialog extends Dialog implements View.OnKeyListener, View.OnCli
         if (mOtpSpinner != null) {
             mOtpSpinner.setEnabled(unLock);
         }
+
+        //radio buttons
+        mCardSelectButton.setEnabled(unLock);
+        mAccountSelectButton.setEnabled(unLock);
+
         mInputAmountAccount.setEnabled(unLock);
         mInputAmountCard.setEnabled(unLock);
         mCardNumber.setEnabled(unLock);
@@ -912,6 +925,8 @@ public class RaveDialog extends Dialog implements View.OnKeyListener, View.OnCli
         mOtpNumber.setEnabled(unLock);
         mCardPin.setEnabled(unLock);
         mUseToken.setEnabled(unLock);
+
+
         if (mUserToken != null) {
             mUserToken.setEnabled(unLock); // Throws null pointer exception
         }
@@ -970,12 +985,12 @@ public class RaveDialog extends Dialog implements View.OnKeyListener, View.OnCli
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.card_segment_btn) {
-            updateBackground(mCardButton, mAccountButton);
+            updateBackground(mCardSelectButton, mAccountSelectButton);
             showView(CARD_DETAILS);
             mIsCardTransaction = true;
             updateSegmentIcons(R.drawable.bank_card_small, R.drawable.account_small_filled);
         } else if (id == R.id.account_segment_btn) {
-            updateBackground(mAccountButton, mCardButton);
+            updateBackground(mAccountSelectButton, mCardSelectButton);
             showView(ACCOUNT_DETAILS);
             mIsCardTransaction = false;
             updateSegmentIcons(R.drawable.bank_card_filled_small, R.drawable.account_small);
@@ -1121,7 +1136,17 @@ public class RaveDialog extends Dialog implements View.OnKeyListener, View.OnCli
 
                             @Override
                             public void onError(@NonNull ErrorResponse e) {
-                                showUnSuccessfulMessage(e.getMessage());
+                                //check if the amount Ed is visible and make it show the Error
+                                if (e.getData().getCode().equals("LIMIT_ERR")) {
+                                    if (mInputAmountCard.getVisibility() == View.VISIBLE && mIsCardTransaction) {
+                                        mInputAmountCard.setError(e.getData().getMessage());
+                                    } else if (mInputAmountAccount.getVisibility() == View.VISIBLE && !mIsCardTransaction) {
+                                        mInputAmountAccount.setError(e.getData().getMessage());
+                                    } else {
+                                        showUnSuccessfulMessage(e.getMessage());
+                                    }
+                                }
+
                             }
 
                             @Override
@@ -1252,18 +1277,6 @@ public class RaveDialog extends Dialog implements View.OnKeyListener, View.OnCli
             mPayBtn.setText(R.string.validate_otp);
             mIsAccountValidate = true;
             showView(OTP_VIEW);
-        } else {
-            // show error alert message  and account view
-//            lockOrUnlockInputFields(true);
-//            if (data.get("code").equals("LIMIT_ERR") && mInputAmountAccount.getVisibility() == View.VISIBLE) {
-//                mInputAmountAccount.setError((String) data.get("message"));
-//            } else {
-//                mAlertMessage.setText((String) data.get("message"));
-//                mAlertMessage.setBackgroundResource(R.drawable.curved_shape_dark_pastel_red);
-//                showView(ACCOUNT_AND_ALERT_MESSAGE);
-//            }
-            mPayBtn.setText(String.format(Locale.getDefault(), PAY_FORMAT, mRaveData.getItemPrice()));
-
         }
 
     }
@@ -1375,7 +1388,6 @@ public class RaveDialog extends Dialog implements View.OnKeyListener, View.OnCli
         }
 
         @SuppressWarnings("unused")
-
         @JavascriptInterface
         public void processContent(String aContent) {
             final String content = aContent;

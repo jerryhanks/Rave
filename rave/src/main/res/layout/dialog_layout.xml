@@ -283,7 +283,7 @@
                             android:layout_marginTop="8dp"
                             android:digits="1234567890,. "
                             android:hint="@string/otp"
-                            android:imeOptions="actionGo"
+                            android:imeOptions="actionDone"
                             android:inputType="number"
                             android:lines="1"
                             android:maxLength="5" />
@@ -366,8 +366,8 @@
                                 android:layout_marginTop="4dp"
                                 android:layout_weight="1"
                                 android:hint="@string/cvv"
-                                android:imeOptions="actionNext|actionDone"
-                                android:inputType="number|numberPassword"
+                                android:imeOptions="actionNext"
+                                android:inputType="numberPassword"
                                 android:lines="1"
                                 android:maxLength="3" />
 
@@ -381,7 +381,7 @@
                                 android:digits="1234567890 "
                                 android:hint="@string/card_pin"
                                 android:imeOptions="actionDone"
-                                android:inputType="number|numberPassword"
+                                android:inputType="numberPassword"
                                 android:lines="1"
                                 android:maxLength="4" />
                         </LinearLayout>

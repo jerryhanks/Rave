@@ -47,6 +47,25 @@ repositories {
 
 ```
 
+##Initialise the Rave Dialog SDK with Context and Environment as follows:
+The default environment for the Rave SDk is Testing, at any time you want to move to production, simply add the following lines of code to your Application class.
+```
+public class App extends Application {
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Rave.initEnvironment(this,Rave.ENV_TESTING);
+    }
+}
+    
+```
+
+Note: The static method Rave.initEnvironment can take :
+* Rave.ENV_PRODUCTION
+* Rave.ENV_TESTING
+
+depending on what you want. The default is Rave.ENV_TESTING.
 Then include the snapshot in your dependencies as follows:
 
 ```
@@ -175,23 +194,5 @@ public class MainActivity extends AppCompatActivity implements RaveDialog.OnRave
     
 ```
 
-##Switching Environment from Testing to Production
-The default environment for the Rave SDk is Testing, at any time you want to move to production, simply add the following lines of code to your Application class.
-```
-public class App extends Application {
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        Rave.initEnvironment(Rave.ENV_TESTING);
-    }
-}
-    
-```
-
-Note: The static method Rave.initEnvironment can take :
-* Rave.ENV_PRODUCTION
-* Rave.ENV_TESTING
-
-depending on what you want. The default is Rave.ENV_TESTING.
 
