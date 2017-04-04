@@ -28,20 +28,21 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.flutterwave.rave.R;
-import com.flutterwave.rave.models.request.AccountChargeRequestData;
-import com.flutterwave.rave.models.response.AccountValidateRequest;
-import com.flutterwave.rave.models.response.AccountValidateResponse;
 import com.flutterwave.rave.models.data.Bank;
+import com.flutterwave.rave.models.data.RaveData;
+import com.flutterwave.rave.models.request.AccountChargeRequestData;
 import com.flutterwave.rave.models.request.BaseRequestData;
 import com.flutterwave.rave.models.request.CardChargeRequestData;
+import com.flutterwave.rave.models.request.ShortCodeRequestData;
+import com.flutterwave.rave.models.response.AccountValidateRequest;
+import com.flutterwave.rave.models.response.AccountValidateResponse;
 import com.flutterwave.rave.models.response.CardValidateRequest;
 import com.flutterwave.rave.models.response.CardValidateResponse;
 import com.flutterwave.rave.models.response.ChargeRequest;
 import com.flutterwave.rave.models.response.ChargeResponse;
 import com.flutterwave.rave.models.response.ErrorResponse;
-import com.flutterwave.rave.models.data.RaveData;
+import com.flutterwave.rave.models.response.RaveResponse;
 import com.flutterwave.rave.models.response.ResponseData;
-import com.flutterwave.rave.models.request.ShortCodeRequestData;
 import com.flutterwave.rave.service.RaveClient;
 import com.flutterwave.rave.utils.RaveAuthModel;
 import com.flutterwave.rave.utils.RaveUtil;
@@ -1152,10 +1153,9 @@ public class RaveDialog extends Dialog implements View.OnKeyListener, View.OnCli
     private void handleAccountValidateResponse(AccountValidateResponse response) {
         if (response.getData().getAcctvalRespCode().equals("02") || response.getData().getAcctvalRespCode().equals("00")) {
 
-            // TODO: 30/03/2017 Remember to bring back interface
-//            if (mListener != null) {
-//                mListener.onResponse(data);
-//            }
+            if (mListener != null) {
+                mListener.onResponse(response);
+            }
 
             mAlertMessage.setText(response.getData().getAcctvalRespMsg());
             mAlertMessage.setBackgroundResource(R.drawable.curved_shape_curious_blue);
@@ -1190,10 +1190,10 @@ public class RaveDialog extends Dialog implements View.OnKeyListener, View.OnCli
                         + mUserCode);
             }
 
-            // TODO: 30/03/2017 remember to bring back interface
-//            if (mListener != null) {
-//                mListener.onResponse((Map<String, Object>) data.get("tx"));
-//            }
+
+            if (mListener != null) {
+                mListener.onResponse(response);
+            }
 
             mAlertMessage.setText(msg);
             mAlertMessage.setBackgroundResource(R.drawable.curved_shape_curious_blue);
@@ -1417,7 +1417,7 @@ public class RaveDialog extends Dialog implements View.OnKeyListener, View.OnCli
      */
 
     public interface OnRaveResponseCallback {
-        void onResponse(Map<String, Object> data);
+        void onResponse(RaveResponse response);
     }
 
     private void showProgressView() {
