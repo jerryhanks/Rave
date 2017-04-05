@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                         "FLWSECK-XXXXX", // secret key
                         "test@gmail.com", // buyer's email address
                         "FLW-TXREF-XXXXX", // tx-ref
-                        false // this boolean field specifies if auth model used is PIN(true) or other(false)
+                         RaveAuthModel, //The AuthModel to use for the Current trasaction.
                         )
                         .build();
 

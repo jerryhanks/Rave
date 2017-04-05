@@ -43,7 +43,8 @@ public class ServiceGenerator {
         httpClientBuilder.cache(provideCache());
 
         //add the client to the retrofit
-        retrofitBuilder.client(httpClientBuilder.build());
+        OkHttpClient okhttpClient = httpClientBuilder.build();
+        retrofitBuilder.client(okhttpClient);
         Retrofit retrofit = retrofitBuilder.build();
         return retrofit.create(serviceClass);
     }
