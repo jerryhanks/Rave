@@ -161,7 +161,7 @@ public class RaveDialog extends Dialog implements View.OnKeyListener, View.OnCli
         //set item image
         ImageView itemImageView = (ImageView) findViewById(R.id.item_img);
         Bitmap bitmap = Optional.fromNullable(mRaveData.getItemImage()).or(
-                BitmapFactory.decodeResource(getContext().getResources(), R.drawable.coke)
+                BitmapFactory.decodeResource(getContext().getResources(), R.drawable.rave_logo)
         );
 
         RoundedBitmapDrawable roundDrawable = RoundedBitmapDrawableFactory.create(getContext().getResources(), bitmap);

@@ -38,9 +38,18 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 //    compile 'me.jerryhanks.rave:rave-dialog:0.0.1-SNAPSHOT'
     compile project(':rave')
+    compile 'com.android.support:appcompat-v7:25.3.1'
+
+    //test dependencies
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.1'
+//    androidTestCompile 'com.jakewharton.espresso:okhttp3-idling-resource:1.0.0'
+//    androidTestCompile 'com.squareup.okio:okio:1.11.0'
+//    androidTestCompile "com.squareup.okhttp3:okhttp:$rootProject.inteceptorVersion"
+//    androidTestCompile "com.android.support:appcompat-v7:$rootProject.supportVersion"
+
     testCompile 'junit:junit:4.12'
+
+
 }

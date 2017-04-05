@@ -62,7 +62,7 @@
                         android:layout_marginTop="@dimen/dim_8dp"
                         android:layout_weight="2"
                         android:scaleType="fitXY"
-                        android:src="@drawable/coke"
+                        android:src="@drawable/rave_logo"
                         rave:squareViewByHeight="false" />
 
                 </LinearLayout>
@@ -323,8 +323,7 @@
                             android:imeOptions="actionNext"
                             android:inputType="number"
                             android:lines="1"
-                            android:maxLength="19"
-                            android:text="5438898014560229" />
+                            android:maxLength="19" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
