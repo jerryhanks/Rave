@@ -73,7 +73,7 @@ dependencies {
     
     ...
     
-    compile 'me.jerryhanks.rave:rave-dialog:0.0.1-SNAPSHOT'
+    compile 'me.jerryhanks.rave:rave-dialog:0.0.2-SNAPSHOT'
     ....
 }
 
