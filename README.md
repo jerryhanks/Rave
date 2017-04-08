@@ -1,43 +1,44 @@
 # Rave
-Rave is an android plugin for interacting with the Flutterwave payment api. It's easy to use and integrate into your existing project. Also, it takes away the extra UI design work, Rave has a nice custom dialog box (both portrait & landscape) for collecting transaction details from users.
 
-## Design
-You can view the screenshots for the demo app [Here](/screenshots) 
+Rave is an android plugin for interacting with the Flutterwave payment api. It's easy to use and integrate into your existing project. Also, it takes away the extra UI design work, Rave has a nice custom dialog box (both portrait  landscape) for collecting transaction details from users. 
 
-## Dependencies
+## Getting Started
 
-Rave has the following dependencies
+Before you use Rave, you must have signed up for a staging or testing account on Ravepay via this link:
 
-    com.android.support.appcompat-v7
-    commons-codec:commons-codec
-    com.squareup.okhttp3:logging-interceptor
-    com.google.guava:guava
-    com.squareup.retrofit2:retrofit
-    com.squareup.retrofit2:converter-gson
+[Rave - For Testing ](http://rave.frontendpwc.com/)
 
+[Rave - For Production](https://ravepay.co/)
 
-Note : You don't have to add these dependencies yourself, they've already been added to gradle within the raveModule.
+Before u can use the SDk, you need a secrete key and a private key which you will get the moment you create either a staging or production account.
+The moment you create an account, you also need to create a rave button so that you can get these keys stated earlier. Also
+not the AuthModel you chose at the point of creating the button.
 
 
-## Installation
+### Prerequisites
 
+There is no any special thing to do before installing the plugin, all you need do is to create a testing account 
+or a production account depending on your need as stated above in Getting Started. 
 
-To import Rave into your Android studio project, proceed as follows:
-
-    1. Download project from github
-    2. Unzip the downloaded file (a directory Rave master will be created)
-    3. Click File > New > Import Module.
-    4. In the Source directory box, Navigate to Rave master directory created earlier 
-    5. Select the `rave` folder
-    6. Click Finish. Once the module is imported, it appears in the Project window on the left.
-    7. add `compile project(":raveModule")` to your dependencies in build.gradle at app level.
-    8. Finally, clean and rebuild project.
-
-##Alternative
-Rave Dialog is currently available on Sonatype, you can grab the Snapshot by adding the following to your app level build.gradle
+Also you must ensure that your app has internet permissions by 
+making sure the uses-permission line below is present in the AndroidManifest.xml.
 
 ```
-repositories {
+
+<uses-permission android:name="android.permission.INTERNET" />
+```
+
+### Installing
+
+#### Android Studio (Using Gradle Build)
+Rave is currently available in Sonatype as SNAPSHOT, not yet release, so you can follow the following steps to grab the 
+snapshot for the time being.
+
+- Add the following to you module level build.gradle
+
+```
+
+epositories {
     mavenCentral()
     maven {
         url "https://oss.sonatype.org/content/repositories/snapshots"
@@ -47,8 +48,34 @@ repositories {
 
 ```
 
-##Initialise the Rave Dialog SDK with Context and Environment as follows:
-The default environment for the Rave SDk is Testing, at any time you want to move to production, simply add the following lines of code to your Application class.
+- Then include the rave dependency in the dependency section as shown below
+
+```
+dependencies {
+
+    ....
+    
+    compile 'me.jerryhanks.rave:rave-dialog:0.0.2-SNAPSHOT'
+    
+    ....
+
+```
+
+#### Eclips 
+
+To use this library with Eclipse, you need to:
+
+1. Clone the repository.
+2. Import the rave project into your Eclipse project
+3. In your project settings, add the Rave project under the Libraries section of the Android category.
+
+Build your project and ensure that all things are working fine, an that is it, you now have Rave
+installed
+
+- Initialise Rave before every other thing.
+Rave requires you to specify and Application context and an Environment which defaults to Testing if not
+set. So do the following in your Application class or MainActivity OnCreate() method
+
 ```
 public class App extends Application {
 
@@ -61,25 +88,13 @@ public class App extends Application {
     
 ```
 
-Note: The static method Rave.initEnvironment can take :
+Note: The static method Rave.initEnvironment can take 
 * Rave.ENV_PRODUCTION
 * Rave.ENV_TESTING
 
-depending on what you want. The default is Rave.ENV_TESTING.
-Then include the snapshot in your dependencies as follows:
+depending on your needs.
 
-```
-dependencies {
-    
-    ...
-    
-    compile 'me.jerryhanks.rave:rave-dialog:0.0.2-SNAPSHOT'
-    ....
-}
-
-```
-
-## How to use
+## Usage
 
 You can call Rave within your activity as shown below with or without the item price.
 However, if you call rave with the item price, the Input field for Amount will be hidden, otherwise, it will be shown.
@@ -148,7 +163,7 @@ You can also specify custom values for RaveData optional parameters as shown bel
                         .build();
 ```
 
-## Using Rave Dialog with RaveDialog.OnRaveResponseCallback
+#### Using Rave Dialog with RaveDialog.OnRaveResponseCallback
 You can also use the other Rave Dialog Constructor that accepts a third Parameter : RaveDialog.OnRaveResponseCallback if you need access to the final success response.
 ```
 public class MainActivity extends AppCompatActivity implements RaveDialog.OnRaveResponseCallback {
@@ -195,4 +210,85 @@ public class MainActivity extends AppCompatActivity implements RaveDialog.OnRave
 ```
 
 
+## Running the tests
+
+Explain how to run the automated tests for this system
+
+## Demo App
+You can run the demo app by cloning the Repo and importing into Android Studio. 
+
+You can view the screenshots for the demo app [Here](/screenshots) 
+
+You can Use the Following Test cards for all your testing:
+
+#### Test Cards
+
+##### Successful charge:
+Card No: 5438898014560229
+
+CVV: 789
+
+Expiry Month: 09
+
+Expiry Year: 19
+
+Pin: 9890
+
+
+##### Fraudulent
+Card No: 5590131743294314
+
+CVV: 887
+
+Expiry Month: 11
+
+Expiry Year: 20
+
+Pin: 8877
+
+##### Insufficient Funds
+Card No: 5258585922666506
+
+CVV: 883
+
+Expiry Month: 09
+
+Expiry Year: 17
+
+Pin: 9891
+
+##### Declined
+Card No: 5143010522339965
+
+CVV: 276
+
+Expiry Month: 08
+
+Expiry Year: 19
+
+Pin: 4322
+
+
+## Versioning
+
+We use [Semantic Versioning (SemVer)](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/po10cio/Rave/tags). 
+
+## Authors
+
+* **Jerry Hanks** - *Initial work* - [Andela KShittu](https://github.com/andela-Kshittu/Rave)
+
+See also the list of [contributors](https://github.com/po10cio/Rave/contributors) who participated in this project.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+* [Andela KShittu](https://github.com/andela-Kshittu/Rave)
+* [Temi](https://github.com/temiadesina)
+
+
+## Change Log
+Please see [CHANGELOG](CHNAGELOG.md) for more information what has changed with most recent version.
 
